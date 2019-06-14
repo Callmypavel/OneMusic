@@ -12,7 +12,7 @@ public class MusicInfoParser {
     private static LinkedList<File> directorylist = new LinkedList<>();
     private static LinkedList<File> filelist = new LinkedList<>();
     public interface OnMusicInfoListener{
-        void onMusicInfoLoaded(String url, String singerName, String songName, String albumName, String trackPosition, long size);
+        void onMusicInfoLoaded(String url, String singerName, String songName, String albumName,String pictureUrl, int trackPosition, long size);
         void onLoadFinished();
     }
     private static OnMusicInfoListener listener;
@@ -29,7 +29,7 @@ public class MusicInfoParser {
 
     }
     public static void decodeMusicInfo(File file,String url){
-        String singerName = "",songName = "unknown",albumName = "",trackPosition = "",fileName = file.getName();
+        String singerName = "",songName = "unknown",albumName = "",trackPosition = "0",fileName = file.getName(),pictureUrl = "";
         long totalSize = file.length();
         //LogTool.log("MusicInfoParser","获取歌曲信息:"+file.getName());
         try {
@@ -131,6 +131,7 @@ public class MusicInfoParser {
                             fos.write(bytes,length,pictureSize);
                             fos.flush();
                             fos.close();
+                            pictureUrl = pictureName;
                         }
                     }catch (Exception e){
                         e.printStackTrace();
@@ -140,7 +141,7 @@ public class MusicInfoParser {
                 fis.read(bytes);
                 id = new String(bytes);
             }
-            listener.onMusicInfoLoaded(file.getPath(),singerName,songName,albumName,trackPosition,totalSize);
+            listener.onMusicInfoLoaded(file.getPath().replace(url,""),singerName,songName,albumName,pictureUrl.replace(url,""),Integer.parseInt(trackPosition),totalSize);
 
 
         }catch (IOException ioException){

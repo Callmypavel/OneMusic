@@ -1,6 +1,8 @@
 
 
 import cn.onepeacemaker.service.MusicService;
+import cn.onepeacemaker.util.LogTool;
+import cn.onepeacemaker.util.MusicInfoParser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -17,7 +19,18 @@ public class BaseTest{
     private MusicService musicService;
     @Test
     public void test(){
-        musicService.addMusic("测试666音乐","真实专辑名","真实歌手名","来来url",1,114,"图片url");
+        MusicInfoParser.parseMusicInfos("E:\\音乐", new MusicInfoParser.OnMusicInfoListener() {
+            @Override
+            public void onMusicInfoLoaded(String url, String singerName, String songName, String albumName, String pictureUrl, int trackPosition, long size) {
+                musicService.addMusic(songName,albumName,singerName,url,trackPosition,(int)size,pictureUrl);
+            }
+
+            @Override
+            public void onLoadFinished() {
+                LogTool.log(this,"加载完毕");
+            }
+        });
+        //musicService.addMusic("测试666音乐","真实专辑名","真实歌手名","来来url",1,114,"图片url");
 
     }
 

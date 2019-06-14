@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.onepeacemaker.dao.MusicDao">
     <insert id="insertMusic" parameterType="cn.onepeacemaker.entity.Music" useGeneratedKeys="true" keyProperty="musicId">
-       insert into music (music_name,track_position,file_size,url) values( #{musicName},#{trackPosition},#{fileSize},#{url} ) on duplicate key update music_name = #{musicName};
+       insert into music (music_name,track_position,file_size,url,singer_name,album_name) values( #{musicName},#{trackPosition},#{fileSize},#{url},#{singerName},#{albumName} ) on duplicate key update music_name = #{musicName};
     </insert>
     <insert id="insertAlbum" parameterType="cn.onepeacemaker.entity.Album" useGeneratedKeys="true" keyProperty="albumId">
        insert into album (album_name,picture_url) values (#{albumName},#{pictureUrl}) on duplicate key update album_name = #{albumName};

@@ -9,6 +9,8 @@ import cn.onepeacemaker.util.LogTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class MusicServiceImpl implements MusicService {
     @Autowired
@@ -19,6 +21,8 @@ public class MusicServiceImpl implements MusicService {
         music.setMusicName(musicName);
         music.setFileSize(fileSize);
         music.setUrl(url);
+        music.setSingerName(singerName);
+        music.setAlbumName(albumName);
 
         Singer singer = new Singer();
         singer.setSingerName(singerName);
@@ -56,4 +60,12 @@ public class MusicServiceImpl implements MusicService {
         musicDao.connectMusicAndAlbum(musicId,albumId);
         musicDao.connectSingerAndAlbum(singerId,albumId);
     }
+
+    @Override
+    public ArrayList<Music> searchMusic(int preNumber, int pageSize, String keyword) {
+
+        return musicDao.getMusics(preNumber,pageSize,keyword);
+    }
+
+
 }
